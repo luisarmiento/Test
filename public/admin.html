@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administración</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-brand">Panel de Administración</div>
+    <div class="navbar-info">
+      <span id="adminUserDisplay"></span>
+      <a href="/dashboard.html" class="btn btn-small btn-primary" style="text-decoration:none;">Calculadora</a>
+      <button class="btn btn-small btn-danger" id="logoutBtn">Cerrar Sesión</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="admin-grid">
+      <div class="admin-box">
+        <h2>Usuarios</h2>
+        <div id="userList"></div>
+      </div>
+
+      <div class="admin-box">
+        <h2>Cálculos</h2>
+        <div class="filter-bar">
+          <select id="userFilter" onchange="filterUser()">
+            <option value="">Todos los usuarios</option>
+          </select>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="admin-calc-table">
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Expresión</th>
+                <th>Resultado</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody id="calcTableBody">
+              <tr><td colspan="4" style="text-align:center;color:rgba(255,255,255,0.4);padding:40px;">Cargando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination" id="adminPagination"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>

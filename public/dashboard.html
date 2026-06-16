@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora - Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-brand">Calculadora Web</div>
+    <div class="navbar-info">
+      <span id="userDisplay"></span>
+      <button class="btn btn-small btn-danger" id="logoutBtn">Cerrar Sesión</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="calculator-grid">
+      <div class="calc-box">
+        <h2>Calculadora</h2>
+        <input type="text" class="calc-display" id="calcDisplay" readonly placeholder="0">
+        <div class="calc-buttons">
+          <button class="calc-btn clear" onclick="clearAll()">AC</button>
+          <button class="calc-btn clear" onclick="clearEntry()">CE</button>
+          <button class="calc-btn clear" onclick="backspace()">&larr;</button>
+          <button class="calc-btn operator" onclick="appendOp('/')">/</button>
+
+          <button class="calc-btn" onclick="appendNum('7')">7</button>
+          <button class="calc-btn" onclick="appendNum('8')">8</button>
+          <button class="calc-btn" onclick="appendNum('9')">9</button>
+          <button class="calc-btn operator" onclick="appendOp('*')">X</button>
+
+          <button class="calc-btn" onclick="appendNum('4')">4</button>
+          <button class="calc-btn" onclick="appendNum('5')">5</button>
+          <button class="calc-btn" onclick="appendNum('6')">6</button>
+          <button class="calc-btn operator" onclick="appendOp('-')">-</button>
+
+          <button class="calc-btn" onclick="appendNum('1')">1</button>
+          <button class="calc-btn" onclick="appendNum('2')">2</button>
+          <button class="calc-btn" onclick="appendNum('3')">3</button>
+          <button class="calc-btn operator" onclick="appendOp('+')">+</button>
+
+          <button class="calc-btn" onclick="appendNum('0')">0</button>
+          <button class="calc-btn" onclick="appendNum('.')">.</button>
+          <button class="calc-btn" onclick="appendNum('%')">%</button>
+          <button class="calc-btn equals" onclick="calculate()">=</button>
+        </div>
+      </div>
+
+      <div class="calc-box">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+          <h2 style="margin:0;">Historial</h2>
+          <button class="btn btn-small btn-danger" onclick="clearHistory()">Limpiar</button>
+        </div>
+        <div class="history-list" id="historyList">
+          <div class="history-empty">No hay cálculos aún</div>
+        </div>
+        <div class="pagination" id="pagination"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/calculator.js"></script>
+</body>
+</html>
