@@ -1,3 +1,4 @@
+require('dotenv').config();
 require('../lib/tracing');
 
 const express = require('express');
