@@ -81,6 +81,7 @@ function buildDashboard(ds) {
 
   return {
     dashboard: {
+      uid: 'calculadora-monitoreo',
       title: 'Calculadora Web - Monitoreo',
       tags: ['calculadora', 'opentelemetry', 'nodejs'],
       timezone: 'browser',
@@ -317,19 +318,24 @@ function buildDashboard(ds) {
           datasource: dsRef,
           fieldConfig: {
             defaults: {
-              unit: 'short',
-              thresholds: { mode: 'absolute', steps: [{ color: 'green', value: null }, { color: 'red', value: 0 }] },
+              unit: 'none',
+              thresholds: { mode: 'absolute', steps: [{ color: 'red', value: null }, { color: 'green', value: 1 }] },
+              mappings: [
+                { type: 'value', value: '1', text: '✅ Activo' },
+                { type: 'value', value: '0', text: '❌ Inactivo' },
+              ],
             },
           },
           options: {
-            reduceOptions: { values: false, calcs: ['lastNotNull'] },
+            reduceOptions: { values: true, calcs: ['lastNotNull'] },
             orientation: 'horizontal',
-            textMode: 'auto',
+            textMode: 'value_and_name',
+            colorMode: 'none',
           },
           targets: [
             {
               refId: 'A',
-              expr: 'sum(rate(http_server_duration_milliseconds_count[5m])) > 0',
+              expr: 'sum(rate(http_server_duration_milliseconds_count[5m])) > bool 0',
               legendFormat: 'Activo',
             },
           ],
