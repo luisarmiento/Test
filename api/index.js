@@ -162,11 +162,25 @@ app.delete('/api/calculations/:id', requireAuth, async (req, res) => {
 });
 
 app.get('/api/admin/users', requireAdmin, async (req, res) => {
-  const users = await prisma.user.findMany({
+  const all = req.query.all === 'true';
+  if (all) {
+    const users = await prisma.user.findMany({
+      orderBy: { created_at: 'desc' },
+      select: { id: true, username: true, role: true, created_at: true }
+    });
+    return res.json(users);
+  }
+  const page = Math.max(1, parseInt(req.query.page) || 1);
+  const limit = Math.min(100, Math.max(1, parseInt(req.query.limit) || 10));
+  const offset = (page - 1) * limit;
+  const total = await prisma.user.count();
+  const data = await prisma.user.findMany({
     orderBy: { created_at: 'desc' },
+    skip: offset,
+    take: limit,
     select: { id: true, username: true, role: true, created_at: true }
   });
-  res.json(users);
+  res.json({ data, total, page, limit });
 });
 
 app.put('/api/admin/users/:id/role', requireAdmin, async (req, res) => {
@@ -182,6 +196,26 @@ app.put('/api/admin/users/:id/role', requireAdmin, async (req, res) => {
     data: { role }
   });
   res.json({ success: true });
+});
+
+app.delete('/api/admin/users/bulk', requireAdmin, async (req, res) => {
+  const { ids } = req.body;
+  if (!Array.isArray(ids) || ids.length === 0) {
+    return res.status(400).json({ error: 'Se requiere un array de IDs' });
+  }
+  try {
+    const adminUser = await prisma.user.findFirst({ where: { username: 'admin' } });
+    const filtered = adminUser ? ids.filter(id => id !== adminUser.id) : ids;
+    if (filtered.length === 0) {
+      return res.status(400).json({ error: 'No puedes eliminar al admin principal' });
+    }
+    await prisma.calculation.deleteMany({ where: { user_id: { in: filtered } } });
+    const result = await prisma.user.deleteMany({ where: { id: { in: filtered } } });
+    res.json({ success: true, deleted: result.count });
+  } catch (err) {
+    errorCounter.add(1);
+    res.status(500).json({ error: 'Error al eliminar usuarios' });
+  }
 });
 
 app.delete('/api/admin/users/:id', requireAdmin, async (req, res) => {

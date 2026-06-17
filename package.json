@@ -10,7 +10,8 @@
     "migrate": "npx prisma migrate dev",
     "migrate:deploy": "npx prisma migrate deploy",
     "generate": "npx prisma generate",
-    "postinstall": "npx prisma generate"
+    "postinstall": "npx prisma generate",
+    "stress": "stress.cmd"
   },
   "dependencies": {
     "@opentelemetry/api": "^1.9.1",

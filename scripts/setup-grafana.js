@@ -74,7 +74,7 @@ function buildDashboard(ds) {
 
   const latencyQuery = (p) => ({
     refId: `latency_${p}`,
-    expr: `histogram_quantile(${p}, sum(rate(http_server_duration_ms_bucket[5m])) by (le))`,
+    expr: `histogram_quantile(${p}, sum(rate(http_server_duration_milliseconds_bucket[5m])) by (le))`,
     legendFormat: `P${Math.round(p * 100)}`,
     interval: '15s',
   });
@@ -143,7 +143,7 @@ function buildDashboard(ds) {
           targets: [
             {
               refId: 'A',
-              expr: 'sum(rate(http_server_duration_ms_count[5m]))',
+              expr: 'sum(rate(http_server_duration_milliseconds_count[5m]))',
               legendFormat: 'Total',
               interval: '15s',
             },
@@ -176,7 +176,7 @@ function buildDashboard(ds) {
           targets: [
             {
               refId: 'A',
-              expr: 'sum(rate(http_server_duration_ms_count{http_status_code=~"5.."}[5m])) / sum(rate(http_server_duration_ms_count[5m]))',
+              expr: 'sum(rate(http_server_duration_milliseconds_count{http_status_code=~"5.."}[5m])) / sum(rate(http_server_duration_milliseconds_count[5m]))',
               legendFormat: 'Error rate',
               interval: '15s',
             },
@@ -201,17 +201,17 @@ function buildDashboard(ds) {
           targets: [
             {
               refId: '2xx',
-              expr: 'sum(rate(http_server_duration_ms_count{http_status_code=~"2.."}[5m]))',
+              expr: 'sum(rate(http_server_duration_milliseconds_count{http_status_code=~"2.."}[5m]))',
               legendFormat: '2xx',
             },
             {
               refId: '4xx',
-              expr: 'sum(rate(http_server_duration_ms_count{http_status_code=~"4.."}[5m]))',
+              expr: 'sum(rate(http_server_duration_milliseconds_count{http_status_code=~"4.."}[5m]))',
               legendFormat: '4xx',
             },
             {
               refId: '5xx',
-              expr: 'sum(rate(http_server_duration_ms_count{http_status_code=~"5.."}[5m]))',
+              expr: 'sum(rate(http_server_duration_milliseconds_count{http_status_code=~"5.."}[5m]))',
               legendFormat: '5xx',
             },
           ],
@@ -275,17 +275,17 @@ function buildDashboard(ds) {
           targets: [
             {
               refId: 'p50',
-              expr: 'histogram_quantile(0.50, sum(rate(calculations_duration_bucket[5m])) by (le))',
+              expr: 'histogram_quantile(0.50, sum(rate(calculations_duration_milliseconds_bucket[5m])) by (le))',
               legendFormat: 'P50',
             },
             {
               refId: 'p90',
-              expr: 'histogram_quantile(0.90, sum(rate(calculations_duration_bucket[5m])) by (le))',
+              expr: 'histogram_quantile(0.90, sum(rate(calculations_duration_milliseconds_bucket[5m])) by (le))',
               legendFormat: 'P90',
             },
             {
               refId: 'p95',
-              expr: 'histogram_quantile(0.95, sum(rate(calculations_duration_bucket[5m])) by (le))',
+              expr: 'histogram_quantile(0.95, sum(rate(calculations_duration_milliseconds_bucket[5m])) by (le))',
               legendFormat: 'P95',
             },
           ],
@@ -329,7 +329,7 @@ function buildDashboard(ds) {
           targets: [
             {
               refId: 'A',
-              expr: 'sum(rate(http_server_duration_ms_count[5m])) > 0',
+              expr: 'sum(rate(http_server_duration_milliseconds_count[5m])) > 0',
               legendFormat: 'Activo',
             },
           ],
