@@ -310,36 +310,6 @@ function buildDashboard(ds) {
             },
           ],
         },
-        {
-          id: 9,
-          title: 'Estado del servicio',
-          type: 'stat',
-          gridPos: { h: 8, w: 6, x: 18, y: 16 },
-          datasource: dsRef,
-          fieldConfig: {
-            defaults: {
-              unit: 'none',
-              thresholds: { mode: 'absolute', steps: [{ color: 'red', value: null }, { color: 'green', value: 1 }] },
-              mappings: [
-                { type: 'value', value: '1', text: '✅ Activo' },
-                { type: 'value', value: '0', text: '❌ Inactivo' },
-              ],
-            },
-          },
-          options: {
-            reduceOptions: { values: true, calcs: ['lastNotNull'] },
-            orientation: 'horizontal',
-            textMode: 'value_and_name',
-            colorMode: 'none',
-          },
-          targets: [
-            {
-              refId: 'A',
-              expr: 'sum(rate(http_server_duration_milliseconds_count[5m])) > bool 0',
-              legendFormat: 'Activo',
-            },
-          ],
-        },
       ],
     },
     overwrite: true,
